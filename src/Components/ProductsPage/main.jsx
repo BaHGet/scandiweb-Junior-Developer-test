@@ -1,7 +1,7 @@
 import 'bootstrap/dist/css/bootstrap.css';
 import './product-page-style.css';
-import Header from './header';
-import Footer from './footer';
+import Header from '../header';
+import Footer from '../footer';
 import ProductCard from './productCard';
 
 
@@ -69,10 +69,12 @@ const products = [
 ]
 
 const Main = (props) => {
-
+    const handleAddProduct = () => {
+        window.location.pathname = '/scandiweb-junior-developer-test/addproduct'
+    }
     return (
         <>
-            <Header />
+            <Header headerName="Product List" btn1="ADD" btn2="MASS DELETE" callback1={handleAddProduct} />
             <div className='d-flex flex-wrap flex-row align-items-center' m-auto>
             {
                 products.map((product) => {

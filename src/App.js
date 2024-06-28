@@ -1,6 +1,7 @@
 import  { Route, Routes } from 'react-router-dom';
 import Main from './Components/ProductsPage/main';
 import './app.css';
+import AddProduct from './Components/AddProductPage/addProductPage';
 
 function App() {
   return (
@@ -11,7 +12,7 @@ function App() {
       />
       <Route 
         path="scandiweb-junior-developer-test/addproduct"
-        element={<div>Add</div>} 
+        element={<AddProduct />} 
       />
     </Routes>
   );
