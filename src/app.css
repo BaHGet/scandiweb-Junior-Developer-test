@@ -1,0 +1,23 @@
+body{
+    font-family: "Roboto Mono", monospace;
+    padding: 10px;
+}
+a{
+    text-decoration: none !important;
+}
+
+.delete-checkbox{
+    width: 15px;
+    height: 15px;
+}
+
+.checked{
+    background-color: red;
+}
+
+.shadow-btn{
+    box-shadow: #000000 5px 5px;
+}
+.shadow-btn:hover{
+    box-shadow: #00000069 0px 5px;
+}
