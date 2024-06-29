@@ -68,9 +68,9 @@ const products = [
     }
 ]
 
-const Main = (props) => {
+const Main = ({setPage}) => {
     const handleAddProduct = () => {
-        window.location.pathname = '/scandiweb-junior-developer-test/addproduct'
+        setPage('add')
     }
     return (
         <>

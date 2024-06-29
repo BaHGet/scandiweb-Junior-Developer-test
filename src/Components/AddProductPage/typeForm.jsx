@@ -74,7 +74,7 @@ const TypeForm = ({type}) => {
     return (
         <>
             <div className="mt-3" id={type} >
-                <Form.Group as={Row} className="mb-2" controlId="formHorizontalName">
+                <Form.Group as={Row} className="mb-2" >
                     {element}
 
                     {

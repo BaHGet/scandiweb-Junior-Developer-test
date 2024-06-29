@@ -2,17 +2,17 @@ import  { Route, Routes } from 'react-router-dom';
 import Main from './Components/ProductsPage/main';
 import './app.css';
 import AddProduct from './Components/AddProductPage/addProductPage';
+import { useState } from 'react';
 
-function App() {
+const App = ()=> {
+  const [page, setPage] = useState('home')
   return (
     <Routes>
       <Route 
-        path="scandiweb-junior-developer-test/"
-        element={<Main />} 
-      />
-      <Route 
-        path="scandiweb-junior-developer-test/addproduct"
-        element={<AddProduct />} 
+        path="/"
+        element={
+        page === 'home' ? <Main setPage={setPage}/> : <AddProduct setPage={setPage}/> 
+      } 
       />
     </Routes>
   );
