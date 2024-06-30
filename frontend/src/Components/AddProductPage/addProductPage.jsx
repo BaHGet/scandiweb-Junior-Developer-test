@@ -39,7 +39,7 @@ const AddProduct = ({setPage}) => {
 
 
     const AddProduct = async() => {
-        if((type && sku && name && price) && (size || (weight && height && width) || length)){ 
+        if((type && sku && name && price) && (size || (length && height && width) || weight)){ 
             setMassege({"hide":true,"massega":''})
             let productAttrbutes = type === 'Furniture' ? {
                 height,
@@ -68,7 +68,7 @@ const AddProduct = ({setPage}) => {
                     ${price ? '' : 'Price,'} 
                     ${type ? '' : 'type'} 
                     ${type !==null ? type === 'Furniture' ? 
-                        height ? width ? length ? '' : 'Length,': 'Width' : 'Height,' : type === 'Book' ? 'Weight' : 'Size' : ''} fields`
+                        height ? width ? length ? '' : 'Length,': 'Width' : 'Height,' : type === 'Book' ? weight ? '': 'Weight' : 'Size' : ''} fields`
                 })
         }
     }
