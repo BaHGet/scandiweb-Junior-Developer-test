@@ -1,0 +1,23 @@
+{
+    "name": "root/backend",
+    "description": "Junior Developer Test Task",
+    "type": "project",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "App\\": "app/"
+        }
+    },
+    "authors": [
+        {
+            "name": "BaHGet",
+            "email": "abosama150@gmail.com"
+        }
+    ],
+    "minimum-stability": "stable",
+    "require": {
+        "php": "^8.1",
+        "vlucas/phpdotenv": "^5.6",
+        "bramus/router": "~1.6"
+    }
+}
