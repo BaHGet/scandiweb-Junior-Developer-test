@@ -2,10 +2,12 @@
 
 namespace App\Database;
 
+use PDO;
+use PDOException;
+
 class Db
 {
-  private \PDO  $conn;
-  private static Db | null $instance = null;
+  private  $pdo;
   
   public function __construct()
   {
@@ -13,22 +15,17 @@ class Db
     $user = $_ENV['DB_USERNAME'];
     $db = $_ENV['DB_NAME'];
     $pwd = $_ENV['DB_PASSWORD'];
-
+    $dsn = 'mysql:host=' . $host . ';dbname=' . $db;
     try {
-      $this->conn = new \PDO("mysql:host=$host;dbname=$db", $user, $pwd);
-      $this->conn->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
-    } catch (\Exception $e) {
-      http_response_code(500);
-      die('DB connection error ' . $e->getMessage() . '<br />');
+        $this->pdo = new PDO($dsn, $user, $pwd);
+        $this->pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    } catch (PDOException $e) {
+        die('Database connection failed: ' . $e->getMessage());
     }
   }
 
-  public static function makeConnection(): \PDO
+  public function makeConnection()
   {
-    if (!self::$instance) {
-      self::$instance = new Db();
-    }
-
-    return self::$instance->conn;
+    return $this->pdo;
   }
 }

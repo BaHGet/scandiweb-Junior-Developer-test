@@ -6,17 +6,17 @@ use App\Models\Products;
 
 class Controller
 {
-    public static function getProducts(): void
+    public static function getProducts()
     {
         Products::get();
     }
 
-    public static function addProduct(): void
+    public static function addProduct()
     {
         Products::add();
     }
 
-    public static function deleteProducts(): void
+    public static function deleteProducts()
     {
         Products::delete();
     }

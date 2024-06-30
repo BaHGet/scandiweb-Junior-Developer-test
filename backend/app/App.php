@@ -12,19 +12,19 @@ use App\Controllers\Controller;
 
 class App
 {
-    private static function loadEnvVariables(): void
+    private static function loadEnvVariables()
     {
         $dotenv = Dotenv::createImmutable(dirname(__DIR__));
         $dotenv->safeLoad();
     }
 
-    private static function setRoutes(): void
+    private static function setRoutes()
     {
         $router = new Router();
         $router->setNamespace('App\Controllers');
-        $router->get('/', Controller::class . ':getProducts');
-        $router->post('/addProduct', Controller::class . ':addProduct');
-        $router->post('/massDelete', Controller::class . ':deleteProducts');
+        $router->get('/', 'Controller@getProducts');
+        $router->post('/addProduct', 'Controller@addProduct');
+        $router->post('/massDelete', 'Controller@deleteProducts');
         $router->run();
     }
 

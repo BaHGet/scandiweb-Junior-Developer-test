@@ -17,7 +17,8 @@ trait ProductQueries
 
     // TODO: add validation
 
-    $dbConn = Db::makeConnection();
+    $db = new Db();
+    $dbConn = $db->makeConnection();
 
     $sqlValueString = join(', ', array_map(fn ($item) => ":" . $item, array_keys($data)));
     $sql = "INSERT INTO $dbTable VALUES ($sqlValueString)";
@@ -32,7 +33,8 @@ trait ProductQueries
 
   public static function findAll(string $dbTable): array
   {
-    $dbConn = Db::makeConnection();
+    $db = new Db();
+    $dbConn = $db->makeConnection();
 
     $sql = "SELECT * FROM $dbTable";
     $stmt = $dbConn->query($sql);
