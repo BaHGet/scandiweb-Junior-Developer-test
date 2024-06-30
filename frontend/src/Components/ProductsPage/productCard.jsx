@@ -20,7 +20,7 @@ const ProductCard = ({product, index, checked, setChecked}) => {
                     {
                         product.attribute.map((attribute ,index) => {
                             return (
-                                <p key={attribute.name+'-'+index} className='mb-0'>{attribute.name}: {attribute.value}{product.type === 'book' ? 'KG' : product.type === 'furniture' ? 'cm' : 'Mb'} </p>
+                                <p key={attribute.name+'-'+index} className='mb-0'>{attribute.name}: {attribute.value}{product.type === 'book' ? 'KG' : product.type === 'furniture' ? 'Cm' : 'Mb'} </p>
                             )
                         })
                     }

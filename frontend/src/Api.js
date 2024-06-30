@@ -1,4 +1,4 @@
-const uri = 'http://localhost:8000'
+const uri = 'https://server-like.000webhostapp.com/api'
 
 export const getProducts = async () => {
     try{

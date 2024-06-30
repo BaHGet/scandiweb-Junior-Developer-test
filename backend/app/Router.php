@@ -28,15 +28,12 @@ class Router {
             if ($path === $route && $_SERVER['REQUEST_METHOD'] === $method) {
                 $controllerClass = $action[0];
                 $controllerMethod = $action[1];
+                
                 if (isset($this->controllerInstances[$controllerClass])) {
                     $controller = $this->controllerInstances[$controllerClass];
                     
-                    // Pass query parameters to controller method
-                    if ($controllerMethod === 'getProduct') {
-                        call_user_func([$controller, $controllerMethod], $queryParams);
-                    } else {
-                        call_user_func([$controller, $controllerMethod]);
-                    }
+                    call_user_func([$controller, $controllerMethod], $queryParams);
+                    
                 }else{
                     // Controller instance not found
                     HttpResponse::notFound('Controller instance not found for class: ' . $controllerClass);

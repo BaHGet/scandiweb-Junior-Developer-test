@@ -46,10 +46,13 @@ class Products
     ]; 
     for($f = 0; $f < count($keys); $f++){
       if(in_array($keys[$f], $attributes)){
-        $data [$keys[$f]] = $productData[$keys[$f]];
+        echo $keys[$f];
+        echo '<br/>';
+        // print_r($keys[$f]);
+        // print_r($productData[$keys[$f]]);
+        $data[$keys[$f]] = $productData[$keys[$f]];
       }
     }
-
     $product = new $class(...array_values($data)); 
     
     try{

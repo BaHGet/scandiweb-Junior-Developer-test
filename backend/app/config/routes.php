@@ -2,7 +2,7 @@
 use App\Controllers\Controller;
 
 return [
-    '/' => [Controller::class, 'getProducts'],
-    '/addProduct' => [Controller::class, 'addProduct'],
-    '/deleteProduct' => [Controller::class, 'deleteProducts'],
+    '/api' => [Controller::class, 'getProducts'],
+    '/api/addProduct' => [Controller::class, 'addProduct'],
+    '/api/deleteProduct' => [Controller::class, 'deleteProducts'],
 ];

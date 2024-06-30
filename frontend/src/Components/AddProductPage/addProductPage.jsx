@@ -48,10 +48,10 @@ const AddProduct = ({setPage}) => {
             size
         }
         let product = {
-            sku,
-            name,
-            price,
-            type
+            "sku":sku,
+            "name":name,
+            "price":price,
+            "type":type.charAt(0).toUpperCase() + type.slice(1).toLowerCase()
         }
         product = {...product, ...productAttrbutes}
         await addProduct(product)
