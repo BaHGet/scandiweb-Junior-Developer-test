@@ -34,7 +34,16 @@ trait ProductQueries
     $sql = "SELECT * FROM $dbTable";
     $stmt = $dbConn->query($sql);
     $products = $stmt->fetchAll(\PDO::FETCH_ASSOC);
-
+    $array = $products;
+    for($p = 0; $p < count($products); $p++) {
+      unset($array[$p]['sku'], $array[$p]['type'], $array[$p]['name'], $array[$p]['price']);
+      $products[$p] = [
+        'sku' => $products[$p]['sku'],
+        'name' => $products[$p]['name'],
+        'price' => $products[$p]['price'],
+        'attribute' => $array[$p],
+      ];
+    }
     return array_map(fn ($p) => $p += ['type' => $dbTable], $products);
   }
 
