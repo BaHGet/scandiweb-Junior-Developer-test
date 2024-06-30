@@ -5,7 +5,7 @@ import TypeSwitcher from "./typeSwitcher"
 import ProductForm from "./productForm"
 import TypeForm from "./typeForm"
 import Footer from "../footer"
-import { Form } from "react-bootstrap"
+import { Alert, Form } from "react-bootstrap"
 import { addProduct } from "../../Api"
 
 const AddProduct = ({setPage}) => {
@@ -19,6 +19,7 @@ const AddProduct = ({setPage}) => {
     const [height, setHeight] = useState(null)
     const [width, setWidth] = useState(null)
     const [length, setLength] = useState(null)
+    const [massege, setMassege] = useState({"hide":true,"massega":''})
     useEffect(() => {
         switch (attrbutes) {
             case 'DVD':
@@ -38,24 +39,38 @@ const AddProduct = ({setPage}) => {
 
 
     const AddProduct = async() => {
-        let productAttrbutes = type === 'Furniture' ? {
-            height,
-            width,
-            length
-        } : type === 'Book' ? {
-            weight
-        } : {
-            size
+        if((type && sku && name && price) && (size || (weight && height && width) || length)){ 
+            setMassege({"hide":true,"massega":''})
+            let productAttrbutes = type === 'Furniture' ? {
+                height,
+                width,
+                length
+            } : type === 'Book' ? {
+                weight
+            } : {
+                size
+            }
+            let product = {
+                "sku":sku,
+                "name":name,
+                "price":price,
+                "type":type.charAt(0).toUpperCase() + type.slice(1).toLowerCase()
+            }
+            product = {...product, ...productAttrbutes}
+            console.log(product)
+            await addProduct(product)
+            setPage('home')
+        }else{
+            setMassege(
+                {
+                    "hide":false,"massega":`Please Check ${sku ? '' : 'SKU,'}
+                    ${name ? '' : 'Name,'}
+                    ${price ? '' : 'Price,'} 
+                    ${type ? '' : 'type'} 
+                    ${type !==null ? type === 'Furniture' ? 
+                        height ? width ? length ? '' : 'Length,': 'Width' : 'Height,' : type === 'Book' ? 'Weight' : 'Size' : ''} fields`
+                })
         }
-        let product = {
-            "sku":sku,
-            "name":name,
-            "price":price,
-            "type":type.charAt(0).toUpperCase() + type.slice(1).toLowerCase()
-        }
-        product = {...product, ...productAttrbutes}
-        await addProduct(product)
-        setPage('home')
     }
 
     return (
@@ -66,6 +81,7 @@ const AddProduct = ({setPage}) => {
                 <TypeSwitcher attrbutes={attrbutes} setAttrbutes={setAttrbutes} type={type} />
                 <TypeForm type={type} setSize={setSize} setWeight={setWeight} setHeight={setHeight} setWidth={setWidth} setLength={setLength}/>
             </Form>
+            <Alert variant="danger" hidden={massege.hide}>{massege.massega}</Alert>
             <Footer />
         </>
     )
