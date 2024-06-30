@@ -8,12 +8,13 @@ const TypeSwitcher = ({attrbutes, setAttrbutes}) => {
             <label className="fw-bold me-3" >Type Switcher</label>
             <select 
                 id={`productType`}
+                defaultValue='type'
                 className="border border-black border-2 opacity-75"
                 onChange={(e) => setAttrbutes(e.target.value)}
                 style={{borderRadius:'5px'}}
                 title={attrbutes || `Type Switcher`}
             >
-                <option value="" selected disabled>Type</option>
+                <option value='type' disabled>Type</option>
                 {
                     types.map((data, index) => {
                         return (

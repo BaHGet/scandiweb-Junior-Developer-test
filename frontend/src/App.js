@@ -11,7 +11,7 @@ const App = ()=> {
       <Route 
         path="/"
         element={
-        page === 'home' ? <Main setPage={setPage}/> : <AddProduct setPage={setPage}/> 
+        page === 'home' ? <Main page={page} setPage={setPage}/> : <AddProduct setPage={setPage}/> 
       } 
       />
     </Routes>

@@ -2,10 +2,10 @@
 
 namespace App;
 
-header('Content-Type: application/json');
-header('Access-Control-Allow-Origin: *');
-header('Access-Control-Allow-Methods: POST, GET, OPTIONS, DELETE');
-header('Access-Control-Allow-Headers: Content-Type, x-requested-with');
+use App\Utilities\Headers;
+
+// Setup headers
+Headers::set();
 
 // Register routes
 use App\Router;

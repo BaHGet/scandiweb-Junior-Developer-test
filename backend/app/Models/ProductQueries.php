@@ -37,11 +37,17 @@ trait ProductQueries
     $array = $products;
     for($p = 0; $p < count($products); $p++) {
       unset($array[$p]['sku'], $array[$p]['type'], $array[$p]['name'], $array[$p]['price']);
+      $keys = array_keys($array[$p]);
+      $attributes = [];
+      for($f = 0; $f < count($keys); $f++) {
+        $attributes[$f]['name'] = $keys[$f];
+        $attributes[$f]['value'] = $array[$p][$keys[$f]];
+      }
       $products[$p] = [
         'sku' => $products[$p]['sku'],
         'name' => $products[$p]['name'],
         'price' => $products[$p]['price'],
-        'attribute' => $array[$p],
+        'attribute' => $attributes,
       ];
     }
     return array_map(fn ($p) => $p += ['type' => $dbTable], $products);
