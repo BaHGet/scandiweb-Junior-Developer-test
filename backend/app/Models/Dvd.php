@@ -2,8 +2,9 @@
 
 namespace App\Models;
 
-use App\Models\ProductTrait;
 use App\Models\Product;
+use App\Database;
+use App\Utilities\HttpResponse;
 
 class Dvd extends Product
 {
@@ -14,7 +15,7 @@ class Dvd extends Product
     parent::__construct($sku, $name, $price, $type);
   }
 
-  public function getAttributes(): array
+  public function getAttributes()
   {
     return [
       'sku' => $this->sku,
@@ -24,7 +25,7 @@ class Dvd extends Product
     ];
   }
 
-  public static function getAll(): array | null
+  public static function getAll()
   {
     try {
       $dvds = self::findAll('dvd');
@@ -32,6 +33,21 @@ class Dvd extends Product
     } catch (\Exception $e) {
       self::trowDbError($e);
       return null;
+    }
+  }
+
+  public static function delete(string $sku)
+  {
+    try {
+      $db = new Database();
+      $dbConn = $db->makeConnection();
+      $sql = "DELETE FROM dvd WHERE sku = :sku";
+      $stmt = $dbConn->prepare($sql);
+      $stmt->execute(['sku' => $sku]);
+      return HttpResponse::deleted('Product deleted successfully');
+    } catch (\Exception $e) {
+      self::trowDbError($e);
+      return false;
     }
   }
 }

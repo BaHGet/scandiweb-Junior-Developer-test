@@ -11,8 +11,10 @@ abstract class Product
     protected string $type,
   ) { }
 
-  abstract protected function save(): void;
-  abstract protected function getAttributes(): array;
-  abstract protected static function getAll(): array | null;
-  abstract protected static function findAll(string $dbTable): array;
+  abstract protected function save();
+  abstract protected function getAttributes();
+  abstract protected static function getAll();
+  abstract protected static function findAll(string $dbTable);
+
+  abstract protected static function delete(string $sku);
 }

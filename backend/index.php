@@ -1,7 +1,6 @@
-<?php 
+<?php
 
 require_once __DIR__ . '/vendor/autoload.php';
 
-use App\App;
 
-App::run();
+require_once __DIR__ . '/app/App.php';

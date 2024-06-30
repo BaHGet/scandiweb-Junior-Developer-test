@@ -2,11 +2,14 @@
 
 namespace App\Models;
 
-use App\Database\Db;
+use App\Database;
 use App\Models\Dvd;
 use App\Models\Book;
 use App\Models\Furniture;
+use App\Models\ProductQueries;
 use App\Utilities\HttpResponse;
+use App\Utilities\ProductAttributes;
+
 
 class Products
 {
@@ -22,50 +25,64 @@ class Products
         usort($allProducts,  fn ($a, $b) =>  strcmp($a['sku'], $b['sku']));
 
         http_response_code(200);
-        echo json_encode($allProducts);
-        return;
+        
+        return json_encode($allProducts);
       } catch (\Exception $e) {
-        HttpResponse::dbError($e->getMessage());
-        return;
+        return HttpResponse::dbError($e->getMessage());
       }
   }
 
-  public function add()
+  public function add($productData)
   {
-    try {
-      $data = $_POST;
-      print_r($data);
-      $floats = ['price','size','weight','height', 'width', 'length'];
-      $keys = array_keys($data);
-      foreach ($floats as $f) {
-        in_array($f, $keys) && $data[$f]  = (float) $data[$f];
+    $type=$productData['type'];
+    $keys = array_keys($productData);
+    $class = "App\\Models\\" . ucfirst($type);
+    $attributes =ProductAttributes::Attributes[strtoupper($type)];
+    $data = [
+      'sku' => $productData['sku'],
+      'name' => $productData['name'],
+      'price' => $productData['price'],
+      'type' => $productData['type'],
+    ]; 
+    for($f = 0; $f < count($keys); $f++){
+      if(in_array($keys[$f], $attributes)){
+        $data [$keys[$f]] = $productData[$keys[$f]];
       }
+    }
 
-      $class = "App\\Models\\" . ucfirst($data['type']);
-      $product = new $class(...array_values($data));
+    $product = new $class(...array_values($data)); 
+    
+    try{
       $product->save();
-    } catch (\Exception $e) {
-      HttpResponse::dbError($e->getMessage());
-      return;
+      return $product;
+    }
+    catch(\Exception $e){
+      return HttpResponse::dbError($e->getMessage());
     }
   }
 
-  public function delete()
+  public function delete($productData)
   {
-    try {
-      $db = new Db();
-      $dbConn = $db->makeConnection();
-      $data = $_POST;
-
-      foreach (array_keys($data) as $db) {
-        $skus = implode(',', array_map(fn ($item) => "'$item'", $data[$db]));
-        $sql = "DELETE FROM $db WHERE sku IN ($skus)";
-        $stmt = $dbConn->prepare($sql);
-        $stmt->execute();
+    $type=$productData['type'];
+    $keys = array_keys($productData);
+    $class = "App\\Models\\" . ucfirst($type);
+    $attributes =ProductAttributes::Attributes[strtoupper($type)];
+    $data = [
+      'sku' => $productData['sku'],
+      'name' => $productData['name'],
+      'price' => $productData['price'],
+      'type' => $productData['type'],
+    ]; 
+    for($f = 0; $f < count($keys); $f++){
+      if(in_array($keys[$f], $attributes)){
+        $data [$keys[$f]] = $productData[$keys[$f]];
       }
-      HttpResponse::deleted();
+    }
+    $product = new $class(...array_values($data)); 
+    try {
+      $product->delete($productData['sku']);
     } catch (\Exception $e) {
-      HttpResponse::dbError($e->getMessage());
+      return HttpResponse::dbError($e->getMessage());
     }
   }
 }

@@ -2,8 +2,9 @@
 
 namespace App\Models;
 
-use App\Models\ProductTrait;
 use App\Models\Product;
+use App\Database;
+use App\Utilities\HttpResponse;
 
 class Book extends Product
 {
@@ -32,6 +33,21 @@ class Book extends Product
     } catch (\Exception $e) {
       self::trowDbError($e);
       return null;
+    }
+  }
+
+  public static function delete(string $sku)
+  {
+    try {
+      $db = new Database();
+      $dbConn = $db->makeConnection();
+      $sql = "DELETE FROM book WHERE sku = :sku";
+      $stmt = $dbConn->prepare($sql);
+      $stmt->execute(['sku' => $sku]);
+      return HttpResponse::deleted('Product deleted successfully');
+    } catch (\Exception $e) {
+      self::trowDbError($e);
+      return false;
     }
   }
 }

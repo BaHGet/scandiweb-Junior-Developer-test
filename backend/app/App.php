@@ -2,41 +2,29 @@
 
 namespace App;
 
-error_reporting(E_ALL);
-ini_set('display_errors', 1); // Set it to 0 in production
+header('Content-Type: application/json');
+header('Access-Control-Allow-Origin: *');
+header('Access-Control-Allow-Methods: POST, GET, OPTIONS, DELETE');
+header('Access-Control-Allow-Headers: Content-Type, x-requested-with');
 
-use Dotenv\Dotenv;
-use App\Utilities\Headers;
-use Bramus\Router\Router;
+// Register routes
+use App\Router;
+
+$routes = require __DIR__ . '/config/routes.php';
+$router = new Router();
+$router->registerRoutes($routes);
+
+// Setup dependency injection
+
 use App\Controllers\Controller;
 use App\Models\Products;
 
+$products = new Products();
+$Controller = new Controller($products);
 
-$Products = new Products();
-$productController = new Controller($Products);
+// Register controller instances in the router
+$router->addControllerInstance(Controller::class, $Controller);
 
-class App
-{
-    private static function loadEnvVariables()
-    {
-        $dotenv = Dotenv::createImmutable(dirname(__DIR__));
-        $dotenv->safeLoad();
-    }
 
-    private static function setRoutes()
-    {
-        $router = new Router();
-        $router->setNamespace('App\Controllers');
-        $router->get('/', 'Controller@getProducts');
-        $router->post('/addProduct', 'Controller@addProduct');
-        $router->post('/massDelete', 'Controller@deleteProducts');
-        $router->run();
-    }
-
-    public static function run(): void
-    {
-        Headers::set();
-        self::loadEnvVariables();
-        self::setRoutes();
-    }
-}
+// Dispatch the request
+$router->dispatch($_SERVER['REQUEST_URI'], $_SERVER['REQUEST_METHOD']);

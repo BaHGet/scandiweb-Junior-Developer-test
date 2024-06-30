@@ -1,23 +1,18 @@
 <?php
 
-declare(strict_types=1);
-
 namespace App\Models;
 
-use App\Database\Db;
+use App\Database;
 use App\Utilities\HttpResponse;
-use App\Utils\ValidationSchema;
 
 trait ProductQueries
 {
-  public function save(): void
+  public function save()
   {
     $data = $this->getAttributes();
     $dbTable = $this->type;
 
-    // TODO: add validation
-
-    $db = new Db();
+    $db = new Database();
     $dbConn = $db->makeConnection();
 
     $sqlValueString = join(', ', array_map(fn ($item) => ":" . $item, array_keys($data)));
@@ -25,15 +20,15 @@ trait ProductQueries
     $stmt = $dbConn->prepare($sql);
     try {
       $stmt->execute($data);
-      HttpResponse::added();
+      HttpResponse::added('Product added successfully');
     } catch (\Exception $e) {
       HttpResponse::dbError($e->getMessage());
     }
   }
 
-  public static function findAll(string $dbTable): array
+  public static function findAll(string $dbTable)
   {
-    $db = new Db();
+    $db = new Database();
     $dbConn = $db->makeConnection();
 
     $sql = "SELECT * FROM $dbTable";
@@ -42,6 +37,7 @@ trait ProductQueries
 
     return array_map(fn ($p) => $p += ['type' => $dbTable], $products);
   }
+
 
   public static function trowDbError(\Exception $e)
   {
