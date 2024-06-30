@@ -6,18 +6,23 @@ use App\Models\Products;
 
 class Controller
 {
-    public static function getProducts()
+    private $products;
+    public function __construct(Products $products)
     {
-        Products::get();
+        $this->products = $products;
+    }
+    public function getProducts()
+    {
+        $products = $this->products->get();
     }
 
-    public static function addProduct()
+    public function addProduct()
     {
-        Products::add();
+        $products = $this->products->add();
     }
 
-    public static function deleteProducts()
+    public function deleteProducts()
     {
-        Products::delete();
+        $products = $this->products->delete();
     }
 }

@@ -1,18 +1,16 @@
 <?php
 
-
-
 namespace App\Models;
 
-use App\Models\Dvd;
 use App\Database\Db;
+use App\Models\Dvd;
 use App\Models\Book;
 use App\Models\Furniture;
 use App\Utilities\HttpResponse;
 
 class Products
 {
-  public static function get()
+  public function get()
   {
     try {
         $dvds = Dvd::getAll();
@@ -32,10 +30,11 @@ class Products
       }
   }
 
-  public static function add(): void
+  public function add()
   {
     try {
       $data = $_POST;
+      print_r($data);
       $floats = ['price','size','weight','height', 'width', 'length'];
       $keys = array_keys($data);
       foreach ($floats as $f) {
@@ -51,7 +50,7 @@ class Products
     }
   }
 
-  public static function delete(): void
+  public function delete()
   {
     try {
       $db = new Db();

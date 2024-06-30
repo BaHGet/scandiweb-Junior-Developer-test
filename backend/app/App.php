@@ -9,6 +9,11 @@ use Dotenv\Dotenv;
 use App\Utilities\Headers;
 use Bramus\Router\Router;
 use App\Controllers\Controller;
+use App\Models\Products;
+
+
+$Products = new Products();
+$productController = new Controller($Products);
 
 class App
 {
